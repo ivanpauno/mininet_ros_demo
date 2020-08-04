@@ -57,9 +57,11 @@ def emulate_ros_network(
     net.pingAll()
 
     # Run commands for each host
+    print('running commands')
     for host, options in zip(net.hosts, host_options):
         print(f"Running command on host '{host.name}': {' '.join(options.command)}")
         host.sendCmd(options.command)
+    print('commands ran')
 
     if duration is not None:
         start_time = time.time()
@@ -69,6 +71,7 @@ def emulate_ros_network(
     # Wait until commands have complete
     while _waiting(net.hosts):
         # Collect output
+        print('collecting output')
         for i, host in enumerate(net.hosts):
             output = host.monitor(10)
             hosts_output[i] += output
@@ -85,6 +88,8 @@ def emulate_ros_network(
             for host in net.hosts:
                 host.sendInt()
             interrupted = True
+        else:
+            print('not interrupting')
 
     for host, output in zip(net.hosts, hosts_output):
         print(f"Host '{host.name}' output:\n{output}")
