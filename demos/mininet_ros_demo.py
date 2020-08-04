@@ -58,4 +58,5 @@ if __name__ == '__main__':
     emulate_ros_network(
         host_options=host_options,
         duration=args.duration,
+        verbose=True
     )
